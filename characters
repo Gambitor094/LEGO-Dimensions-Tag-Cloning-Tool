@@ -1,0 +1,9 @@
+@echo off
+title LEGO Dimensions Character Tag Cloning
+mode con:cols=120 lines=9999
+:loop
+cd "C:\Users\%USERNAME%\Downloads\LD Tag Cloning\LD-Characters\node-ld-master"
+set NODE_NO_WARNINGS=1
+node samples/characters.js
+pause
+goto loop
