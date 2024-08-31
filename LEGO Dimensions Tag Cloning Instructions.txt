@@ -1,0 +1,48 @@
+1. Get some NFC Ntag213 tags. These are the ones confirmed to work every time. Make sure your phone supports NFC, too.
+2. Download and install Node.js on your PC. Version 10.15.3 will probably work best. (https://nodejs.org/download/release/v10.15.3/node-v10.15.3-x64.msi)
+3. Download the node-ld folder by selecting "Code" and "Download as zip" from here: https://github.com/bettse/node-ld
+4. Create a folder named "LD Tag Cloning" and inside it, create 2 more folders. One for characters and one for vehicles/gadgets. Make sure that you place it somewhere that's easy to reach, 'cause changing the location of one folder might as well mean you'll have to change paths for all the files inside.
+5. Extract node-ld-master.
+6. Open the terminal and change directory to the node-ld-master folder. For example, cd C:\Users\%USERNAME%\Downloads\node-ld-master
+7. Now, run npm install --ignore-script
+8. Then, run npm install
+9. Now, have a copy of the node-ld-master folder in both of the folders you created.
+10. In the characters folder, go to the "samples" folder inside node-dl-master. Open characters.js with a text editor.
+11. In line 14, change '../data/charactermap.json' with the actual location of the charactermap.json file. You can find it in the "data" folder inside node-ld-master. So, simply copy its path, but make sure it's in this format: 'C:/Users/%USERNAME%/Downloads/LD Tag Cloning/LD-Characters/node-ld-master/data/charactermap.json' without any "\" symbols.
+12. Repeat the same process in steps 10 & 11 for the vehicles folder, but instead of charactermap.json, copy the file path to tokenmap.json, which is also located in the data folder.
+13. Now, create a new file in your text editor of choice and paste the following:
+
+@echo off
+title LEGO Dimensions Character Tag Cloning
+mode con:cols=120 lines=9999
+:loop
+cd "C:\Users\%USERNAME%\Downloads\LD Tag Cloning\LD-Characters\node-ld-master"
+set NODE_NO_WARNINGS=1
+node samples/characters.js
+pause
+goto loop
+
+for characters, and in a separate text file, paste:
+
+@echo off
+title LEGO Dimensions Vehicle Tag Cloning
+mode con:cols=120 lines=9999
+:loop
+cd "C:\Users\%USERNAME%\Downloads\LD Tag Cloning\LD-Vehicles\node-ld-master"
+set NODE_NO_WARNINGS=1
+node samples/characters.js
+pause
+goto loop
+
+for vehicles. Of course, make sure to make any changes to the path required, so that it matches the location of your folders.
+
+14. Save each file as a .bat file, instead of .txt. Simply by clicking these, you'll be able to run a program that allows you to get necessary info needed for your NFC tags. In case you have issues with the program's display (in my case, the text cursor appeared way lower than it should be), you could also use the Advanced BAT to EXE Converter (https://www.battoexeconverter.com/) to compile the batch files to executables. Then, right click each exe file, select properties, go to the Compatibility tab and select "Run this program as administrator". This way, it should appear exactly like it should be.
+15. Once you open each file, you'll get a prompt asking you to type the NFC tag's UID. To get this, you need to have MIFARE++ Ultralight installed in your android phone (if anyone knows about an iOS alternative, let me know). You might not find this app in google play, so use a trusted website to download it as an apk and manually install it. Turn on the NFC in your phone and once installed, open MIFARE++ and use it to read one of your NFC tags. The UID is the first 6 digits from page 0 and all the 8 digits from page 1. For example, Page 0: 1D72E007, Page 1: 68031080, then the UID is 1D27E068031080. There's also an app called MIFARE Classic Tool, which you can probably find in Google Play Store and once you scan a tag with your phone, it immediately gives you the UID, so it saves time. So, scan a tag, get its UID and type it in the prompt.
+16. When you click enter, you'll get a list of all available characters (or vehicles, depending on the bat/exe file you chose before). Next to each character, there's be a series of digits, which you need to write to your NFC tag. Using MIFARE++ Ultralight, you can easily do so by reading a tag and then editing the specific pages that you need to change. Each tag has its own UID. You can't just input a random UID and write all tags based on that, because it won't work. You'll have to type each tag's specific UID every time you need to write a new character/vehicle. To write the tags, simply press write. Make sure to check my tips on the writing process below.
+
+The pages that LEGO Dimensions always reads are 35, 36, 37, 38 and 43, so don't mind about the rest, the game won't read them. The PC program won't give you info on page 35 and 38, so make sure to read what I'm saying here:
+Make sure that Page 35 is ALWAYS just 8 zeroes with no other digits in-between, no matter if you're writing characters or vehicles.
+If you're writing characters, the pages you'll always have to change are 36, 37 and 43. You must change these pages to match the information given by the PC program. Page 38 must always be 8 zeroes for CHARACTER tags.
+If you're writing vehicles, the only pages you'll have to change are 38 and 43. In Page 38 in vehicles, you must always delete the 4th zero and replace it with a 1. That's how the game knows that this is supposed to be a vehicle and not a character. In page 43, just type what the PC program says for that page. You don't even have to search for the specific vehicle you want, as page 43 will always be the same for a specific UID, but NOT for all UIDs. This will register as a LEGO Dimensions vehicle, but to actually use it in the game you'll need a second tag in which you must write the character that the vehicle is associated to. For example, to use the Invisible Jet, you'll first need to have a tag with Wonder Woman written on it. When you boot the game, place the tag with the character in your toypad, but DO NOT place the vehicle there yet. Wait until the game gives you instructions to build the character's vehicle. If it doesn't, hold the triagle button and select "Building Instructions" from the menu. Just skip the instructions and once the game asks to write this vehicle to its toypad, select yes and then place the vehicle tag where it asks you to. If you've written everything correctly, the game will rewrite the tag and the vehicle will appear. Long story short, you can't write specific vehicles, only tags that register as blank vehicles in the game that can only be used in combination with their associated character.
+
+Now, you can write anything you want and use it in LEGO Dimensions.
